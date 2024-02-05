@@ -1,0 +1,249 @@
+{% extends 'coca/partials/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block content %} 
+
+    {% comment %} {% block pagetitle %}
+    {% include "partials/page-title.html" with pagetitle="Lexa" subtitle="Dashboard" title="Dashboard"%}
+    {% endblock pagetitle %} {% endcomment %}
+
+    <div class="row justify-content-center ">
+
+        <div class="card mini-stat bg-primary w-100 ">
+            <div class="card-body mini-stat-img ">
+                <div class="row">
+                <div class="col-lg-6 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-black">Enter  Your Informations   </h4>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 justify-content-center">
+                                   
+                                    <div class="col-lg-12">
+                                        <div class="mt-4">
+                                            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> User Info</h5>
+                                            <form method = "POST">
+                                               
+                                                {% csrf_token %}
+                                                <div class="row">                                                            
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="formrow-email-input">First Name</label>
+                                                            <input type="text" class="form-control" id="formrow-email-input" name="nom" placeholder="Enter your name">
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="formrow-password-input">Last Name</label>
+                                                            <input type="text" name="prenom" class="form-control" id="formrow-password-input" placeholder="Enter your last name">
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                                <div class="row">                                                            
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="formrow-email-input">Email</label>
+                                                            <input type="email" name="email" class="form-control" id="formrow-email-input" placeholder="Enter your country">
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="formrow-password-input"> Addres </label>
+                                                            <input type="text" name="addres" class="form-control" id="formrow-password-input" placeholder="Enter your region">
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                                {% comment %} <div class="row">                                                            
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="formrow-email-input">Department</label>
+                                                            <input type="email" class="form-control" id="formrow-email-input" placeholder="Enter your department">
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="formrow-password-input"> Arrondissement </label>
+                                                            <input type="password" class="form-control" id="formrow-password-input" placeholder="Enter your arrondissement">
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row --> {% endcomment %}
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="formrow-firstname-input">Telephone</label>
+                                                    <input type="text" name="telephone" class="form-control" id="formrow-firstname-input" placeholder="Enter your phone number">
+                                                </div>
+    
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="formrow-customCheck">
+                                                        {% comment %} <label class="form-check-label" for="formrow-customCheck">Check me out</label> {% endcomment %}
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 mx-auto">
+                                                    <button type="submit" class="btn btn-primary w-md">Commencer</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                               
+                                </div> <!-- end col -->
+                           
+                            </div> <!-- end row -->
+        
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 ">
+                    <img class="card-img-top img-fluid" src="{% static "images/user-info.svg" %}" alt="Card image cap">
+                </div>
+                    
+                </div>
+            </div>
+            </div>
+
+        </div>
+
+
+       
+    </div>
+
+    {% if panneau %}
+
+    <div class="row justify-content-center mx-auto w-100">
+                            
+        <div class="col-xl-4 col-sm-6 ">
+            <a href="#" >
+            <div class="card mini-stat bg-primary w-75">
+                <div class="card-body mini-stat-img">
+                    {% comment %} <div class="mini-stat-icon">
+                        <i class="mdi mdi-cube-outline float-end"></i>
+                    </div> {% endcomment %}
+                    <div class="text-white text-center py-2">
+                        <h2 class="text-uppercase mb-3 font-size-24  text-white mb-3">{{panneau.nom}}</h2>
+                        <h6 class="text-uppercase mb-3 font-size-14 text-white mb-3">Old electricity Bills</h2>
+                        {% comment %} <a href = "" class="btn btn-md btn-light waves-effect waves-light mt-3">Obtemir Un devis</a> {% endcomment %}
+                        {% comment %} <span class="badge bg-info"> +11% </span> <span class="ms-2">From previous period</span> {% endcomment %}
+                    </div>
+                </div>
+            </a>
+            </div>
+        
+        </div>
+        
+        
+        </div>
+
+        {% comment %} <div class="col-xl-3 col-sm-6">
+            <div class="card mini-stat bg-primary">
+                <div class="card-body mini-stat-img">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-tag-text-outline float-end"></i>
+                    </div>
+                    <div class="text-white">
+                        <h6 class="text-uppercase mb-3 font-size-16 text-white">Average Price</h6>
+                        <h2 class="mb-4 text-white">$15.9</h2>
+                        <span class="badge bg-warning"> 0% </span> <span class="ms-2">From previous period</span>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        {% comment %} <div class="col-xl-3 col-sm-6">
+            <div class="card mini-stat bg-primary">
+                <div class="card-body mini-stat-img">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-briefcase-check float-end"></i>
+                    </div>
+                    <div class="text-white">
+                        <h6 class="text-uppercase mb-3 font-size-16 text-white">Product Sold</h6>
+                        <h2 class="mb-4 text-white">1890</h2>
+                        <span class="badge bg-info"> +89% </span> <span class="ms-2">From previous period</span>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    
+    </div>
+      
+    {% endif %}
+
+<script>
+    $(document).on('click', '#addAppliance', function () {
+var number = $('#added_appliances').children().length + 1;
+// var number_a = $('#form_appliances').children().length + 1;
+$('#nombre_appareil').val(number);
+
+let itemAdd = `
+        <div class="row" id=item-${number}>
+            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> Appliances ${number} <button onclick="removeItem(${number})" class="btn p-0 row justify-content-end " type="button" id="close-${number}"> <i class="mdi mdi-close-circle text-danger font-size-18  me-2"></i></button></h5>
+            <div class="col-md-6">
+                
+            
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <select class="form-control select2" name="appareil-${number}" id="appareil-${number}">
+                        <option>Select</option>
+                        <optgroup label="Alaskan/Hawaiian Time Zone">
+                            {% for x in appliances %}
+
+                            <option value="{{x.id}}" >{{x.nom}} {% if x.type == '' %} {% else %} ( {{x.type}} ) {% endif %} </option>
+
+                            {% endfor %}
+                            
+                        </optgroup>
+                        
+                        
+                    </select>
+                </div>
+
+
+            </div> <!-- end col -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label" for="formrow-password-input">Quantity</label>
+                    <input type="number" name="qte-${number}" class="form-control" id="qte-${number}" placeholder="Enter a quantity">
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+`
+
+    if (controleFormulaire(number - 1)) {
+    end = $('#form_appliances').children();
+    $('#added_appliances:last').append(end);
+    end.remove;
+    $('#form_appliances:last').append(itemAdd)
+
+    
+}
+
+
+
+})  ;  
+</script>
+
+
+
+                        <!-- end row -->
+
+                        
+                        <!-- end row -->
+
+                        <!-- end row -->
+{% endblock content %}
+
+{% block extra_javascript %}
+
+    <!--Morris Chart-->
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+    <script src="{% static 'libs/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_javascript %}

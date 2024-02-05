@@ -1,0 +1,157 @@
+{% extends 'coca/partials/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block content %} 
+
+    {% comment %} {% block pagetitle %}
+    {% include "partials/page-title.html" with pagetitle="Lexa" subtitle="Dashboard" title="Dashboard"%}
+    {% endblock pagetitle %} {% endcomment %}
+
+    <div class="row justify-content-center ">
+
+        <div class="card mini-stat bg-primary w-100 ">
+            <div class="card-body mini-stat-img ">
+                <div class="row">
+                <div class="col-lg-6 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-black">Enter your Consommation   </h4>
+                            <div class="row">
+                                <div class="col-lg-12 justify-content-center">
+                                   
+                                        <input type="hidden" id="nombre_appareil" name="nombre_appareil" class="form-control"  placeholder="Enter a quantity">
+                                    <div class="mt-4" id="form_appliances">
+                                        
+        
+                                            <div class="row" id="first_appliance">
+                                                <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> First Bill</h5>
+                                            
+                                                <div class="col-md-6">
+                                                    
+                                               
+        
+                                                </div> <!-- end col -->
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="formrow-password-input">Quantity</label>
+                                                        <input type="number" name="qte-1" class="form-control" id="qte-1" placeholder="Enter a quantity">
+                                                        <input type="hidden"  class="form-control " id="empty" placeholder="Enter a quantity" value="1">
+                                                    </div>
+                                                </div> <!-- end col -->
+                                            </div> <!-- end row -->
+        
+                                          
+                                          
+                                        
+                                    </div>
+                                    <div class="row mt-4 justify-content-end">
+                                        <button type="button" class="col-3 btn btn-secondary w-md mx-2" id="addBill">Add Bill</button>
+                                    </div>
+                               
+                                </div> <!-- end col -->
+                           
+                            </div> <!-- end row -->
+        
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6  justify-content-center">
+
+                    <div class="card w-100">
+                        <form method = "post">
+
+                            {% csrf_token %}
+                        <div class="card-body" id="added_appliances">
+                            <h4 class="card-title text-black">your appliances  choiced </h4>
+                            <!-- <div class="row">
+                            </div> -->
+                        </div>
+                        <div class="row mt-4 justify-content-end m-2" >
+
+                        <button type="submit" class="col-3 btn btn-primary w-md">Get my quote</button>
+                        </div>
+                        </form>
+                    </div>>
+
+                </div>
+                    
+
+
+
+
+
+
+                </div>
+            </div>
+            </div>
+
+        </div>
+
+
+       
+    </div>
+
+    {% comment %} Modal {% endcomment %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+data-bs-keyboard="false" tabindex="-1" role="dialog"
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Old Bills
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Please enter a number of electricity bill that </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light waves-effect"
+                data-bs-dismiss="modal">Close</button>
+            <button type="button"
+                class="btn btn-primary waves-effect waves-light">Save</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+
+    // $(document).ready(function() {
+    //     $('#staticBackdrop').modal('show');
+    // });
+
+
+    
+
+
+</script>
+
+
+
+                        <!-- end row -->
+
+                        
+                        <!-- end row -->
+
+                        <!-- end row -->
+{% endblock content %}
+
+{% block extra_javascript %}
+
+    <!--Morris Chart-->
+    <script src="{% static 'js/index.js' %}"></script>
+
+
+    <script src="{% static 'libs/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_javascript %}

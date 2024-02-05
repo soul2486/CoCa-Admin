@@ -1,0 +1,266 @@
+{% extends 'coca/partials/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block content %} 
+
+    {% comment %} {% block pagetitle %}
+    {% include "partials/page-title.html" with pagetitle="Lexa" subtitle="Dashboard" title="Dashboard"%}
+    {% endblock pagetitle %} {% endcomment %}
+
+    <div class="row justify-content-center ">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="invoice-title">
+                                    <h4 class="float-end font-size-16"><strong>Order # 12345</strong></h4>
+                                    <h3>
+                                        <img src="{% static 'images/smartsana-logo.png' %}" alt="" height="40">
+                                    </h3>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <address>
+                                                <strong>Billed To:</strong><br>
+                                                {{devis.internaute_temp.nom}}  {{devis.internaute_temp.prenom}}<br>
+                                                {{devis.internaute_temp.email}}<br>
+                                                {{devis.internaute_temp.addres}}<br>
+                                                {{devis.internaute_temp.telephone}}
+                                            </address>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <address>
+                                                <strong>Shipped To:</strong><br>
+                                                SmartSana Technologies<br>
+                                                1234 Main<br>
+                                                Apt. 4B<br>
+                                                Springfield, ST 54321
+                                            </address>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 mt-4">
+                                        <address>
+                                                <!-- <strong>Payment Method:</strong><br>
+                                                Visa ending **** 4242<br>
+                                                {{devis.internaute_temp.email}} -->
+                                            </address>
+                                    </div>
+                                    <div class="col-6 mt-4 text-end">
+                                        <address>
+                                                <strong>Order Date:</strong><br>
+                                                {{devis.date}}<br><br>
+                                            </address>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div>
+                                    <div class="p-2">
+                                        <h3 class="font-size-16"><strong>Order summary</strong></h3>
+                                    </div>
+                                    <div class="">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <td><strong>Item</strong></td>
+                                                        <td class="text-center"><strong>Price</strong></td>
+                                                        <td class="text-center"><strong>Quantity</strong>
+                                                        </td>
+                                                        <td class="text-end"><strong>Totals</strong></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                                    {% for x in appliances.appliances %}
+                                                    <tr>
+                                                        <td> {{x.appliance.nom}}({{x.appliance.type}}) </td>
+                                                        <td class="text-center cote" id="{{x.appliance.id}}">{{x.appliance.cote}}</td>
+                                                        <td class="text-center qty" id="q-{{x.appliance.id}}">{{x.quantity}}</td>
+                                                        <td class="text-end total" id="t-{{x.appliance.id}}"></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                     {% comment %}<tr>
+                                                        <td>{{appliances}}</td>
+                                                        <td class="text-center">$20.00</td>
+                                                        <td class="text-center">3</td>
+                                                        <td class="text-end">$60.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>BS-1000</td>
+                                                        <td class="text-center">$600.00</td>
+                                                        <td class="text-center">1</td>
+                                                        <td class="text-end">$600.00</td>
+                                                    </tr>{% endcomment %}
+                                                    <tr>
+                                                        <td class="thick-line"></td>
+                                                        <td class="thick-line text-center">
+                                                            <strong>Subtotal</strong>
+                                                        </td>
+                                                        <td class="thick-line"></td>
+                                                        
+                                                        <td class="thick-line text-end">{{devis.total}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line text-center">
+                                                            <strong>Option</strong>
+                                                        </td>
+                                                        <td class="no-line text-center">
+                                                            <strong>{{panneau.nom}}</strong>
+                                                        </td>
+                                                        
+                                                        <td class="no-line text-end"> {{panneau.PV}} Wp (PV) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line text-center">
+                                                            <strong>Battery</strong>
+                                                        </td>
+                                                        
+                                                        <td class="no-line text-center">
+                                                            <strong>{{type.type.type}}</strong>
+                                                        </td>
+                                                        
+                                                        <td class="no-line text-end">  </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line text-center">
+                                                            <strong>Total</strong>
+                                                        </td>
+                                                            <td class="no-line text-end">
+                                                                <strong>{{type.prix}} FCFA</strong>
+                                                            </td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="d-print-none">
+                                            <div class="float-end">
+                                                <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-2"><i class="fa fa-print"></i></a>
+                                                <a href="#" class="btn btn-primary waves-effect waves-light">Send</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- end row -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+
+       
+    </div>
+
+   
+
+<script>
+    $(document).on('click', '#addAppliance', function () {
+var number = $('#added_appliances').children().length + 1;
+// var number_a = $('#form_appliances').children().length + 1;
+$('#nombre_appareil').val(number);
+
+let itemAdd = `
+        <div class="row" id=item-${number}>
+            <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> Appliances ${number} <button onclick="removeItem(${number})" class="btn p-0 row justify-content-end " type="button" id="close-${number}"> <i class="mdi mdi-close-circle text-danger font-size-18  me-2"></i></button></h5>
+            <div class="col-md-6">
+                
+            
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <select class="form-control select2" name="appareil-${number}" id="appareil-${number}">
+                        <option>Select</option>
+                        <optgroup label="Alaskan/Hawaiian Time Zone">
+                            {% for x in appliances %}
+
+                            <option value="{{x.id}}" >{{x.nom}} {% if x.type == '' %} {% else %} ( {{x.type}} ) {% endif %} </option>
+
+                            {% endfor %}
+                            
+                        </optgroup>
+                        
+                        
+                    </select>
+                </div>
+
+
+            </div> <!-- end col -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label" for="formrow-password-input">Quantity</label>
+                    <input type="number" name="qte-${number}" class="form-control" id="qte-${number}" placeholder="Enter a quantity">
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+`
+
+    if (controleFormulaire(number - 1)) {
+    end = $('#form_appliances').children();
+    $('#added_appliances:last').append(end);
+    end.remove;
+    $('#form_appliances:last').append(itemAdd)
+
+    
+}
+
+
+
+})  ; 
+
+$(document).ready(function () {
+        // Itérer sur chaque ligne du tableau spécifique
+        setTimeout(function () {
+        $('tr').each(function () {
+            // Obtenir les valeurs des deuxième et troisième colonnes
+            var cote = parseFloat($(this).find('.cote').text());
+            var quantity = parseInt($(this).find('.qty').text());
+
+            // Calculer le produit
+            var total = cote * quantity;
+
+            // Mettre à jour la quatrième colonne avec le résultat
+            $(this).find('.total').text(parseFloat(total));
+        });},1000);
+    });</script>
+
+
+
+                        <!-- end row -->
+
+                        
+                        <!-- end row -->
+
+                        <!-- end row -->
+{% endblock content %}
+
+{% block extra_javascript %}
+
+    <!--Morris Chart-->
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+    <script src="{% static 'libs/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_javascript %}

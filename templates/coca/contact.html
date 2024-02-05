@@ -1,0 +1,43 @@
+{% extends 'coca/partials/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+{% block apropos_contact %}active{% endblock apropos_contact %}
+{% block content %} 
+
+    {% comment %} {% block pagetitle %}
+    {% include "partials/page-title.html" with pagetitle="Lexa" subtitle="Dashboard" title="Dashboard"%}
+    {% endblock pagetitle %} {% endcomment %}
+
+                        <div class="row row-6">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">                                        
+    
+                                                    <h5 class="card-title">Contact Us</h5>
+                                                    {% comment %} <p class="card-title-desc">Session timeout and keep-alive control with a nice Bootstrap warning dialog.</p> {% endcomment %}
+            
+                                                    <div class="text-muted">
+                                                        <p>
+                                                            If you have any questions, comments, or if you want to learn more about our application, feel free to contact us. We're here to help you take control of your energy consumption and take a step towards a more sustainable energy future.                                                        </p>                                                        
+                                         <p>
+                                            Thank you for choosing our solar system estimation application. Together, let's take a step towards a greener future!                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <!-- end row -->
+
+                       
+                        <!-- end row -->
+{% endblock content %}
+
+{% block extra_javascript %}
+
+    <!--Morris Chart-->
+    <script src="{% static 'libs/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_javascript %}

@@ -1,0 +1,66 @@
+{% extends 'coca/partials/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+{% block active_apropos %}active{% endblock active_apropos %}
+{% block content %} 
+
+    {% comment %} {% block pagetitle %}
+    {% include "partials/page-title.html" with pagetitle="Lexa" subtitle="Dashboard" title="Dashboard"%}
+    {% endblock pagetitle %} {% endcomment %}
+
+                        <div class="row row-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+    
+                                            <h5 class="card-title">Who Are We ?</h5>
+                                            {% comment %} <p class="card-title-desc">Session timeout and keep-alive control with a nice Bootstrap warning dialog.</p> {% endcomment %}
+    
+                                            <div class="text-muted">
+                                                <p>
+                                                    We are a passionate team of solar energy experts, web developers, and technological innovators. Our goal is to provide you with an intuitive solution that enables you to make informed decisions for your transition to solar energy.                                              
+                                                  </p>
+                                            <h5 class="card-title">How It Works?</h5>
+                                                {% comment %} <p class="card-title-desc">Session timeout and keep-alive control with a nice Bootstrap warning dialog.</p> {% endcomment %}
+        
+                                                <div class="text-muted">
+                                                    <p>
+                                                        Appliance Selection: Start by choosing the electrical appliances you use in your daily life. Our application will guide you through the entire process. <br>
+
+                                                        Personalized Estimation: You have the option to estimate your consumption based on the selection of appliances or by using your old electricity bills. Customize your estimation for maximum accuracy. <br>
+                                                    
+                                                        System Recommendation: We analyze your data to recommend a solar system tailored to your needs. Explore different options for solar panels and batteries to find the perfect configuration.<br>
+                                                    
+                                                        Quote Generation: Get a detailed quote based on the estimation results. Download it, share it, and use it as a starting point for your transition to solar energy.                                                    </p>
+        
+                                                        <h5 class="card-title">Our Environmental Commitment</h5>
+                                                        {% comment %} <p class="card-title-desc">Session timeout and keep-alive control with a nice Bootstrap warning dialog.</p> {% endcomment %}
+                
+                                                        <div class="text-muted">
+                                                            <p>
+                                                                By choosing solar energy, you are contributing to a more sustainable future. Our team is committed to promoting renewable energy solutions to reduce environmental impact and create a cleaner world for future generations.
+                                                            </p>                                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        
+                        </div>
+                        <!-- end row -->
+
+                       
+                        <!-- end row -->
+{% endblock content %}
+
+{% block extra_javascript %}
+
+    <!--Morris Chart-->
+    <script src="{% static 'libs/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_javascript %}

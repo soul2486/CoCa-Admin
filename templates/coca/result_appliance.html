@@ -1,0 +1,142 @@
+{% extends 'coca/partials/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block content %} 
+
+    {% comment %} {% block pagetitle %}
+    {% include "partials/page-title.html" with pagetitle="Lexa" subtitle="Dashboard" title="Dashboard"%}
+    {% endblock pagetitle %} {% endcomment %}
+
+                        <div class="row justify-content-beetween mx-auto w-100">
+                            
+                            <div class="col-xl-6 col-sm-6 ">
+                                <a href="#" >
+                                <div class="card mini-stat  w-75">
+                                    <div class="card-body mini-stat-img">
+                                        {% comment %} <div class="mini-stat-icon">
+                                            <i class="mdi mdi-cube-outline float-end"></i>
+                                        </div> {% endcomment %}
+                                        <div class="text-center py-2">
+                                            <h2 class=" mb-3 font-size-24 text-black  mb-3">Your Appliances have Choiced</h2>
+                                            {% comment %} <h6 class="text-uppercase mb-3 font-size-14  mb-3">Old electricity Bills</h2> {% endcomment %}
+                                            
+                                                <ol class="activity-feed mb-0">
+                                                    {% for x in appliances %}
+                                                    <li class="feed-item">
+                                                        <div class="feed-item-list">
+                                                            <h6 class="text-uppercase mb-3 font-size-14">{{x.appliance.nom}} {% if x.appliance.type == '' %} {% else %} ( {{x.appliance.type}} ) {% endif %} </h6>
+                                                            <span class="activity-text"> * {{x.quantity}} </span>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ol>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </a>
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="col-xl-3 col-sm  h-auto justify-content-center my-auto">
+                                <h6 class="text-uppercase  font-size-14  mb-0">you have need</h6>
+
+                                <i class = "mdi mdi-approximately-equal mdi-spin display-1"></i>
+                            </div>
+                            <div class="col-xl-3 col-sm-6 h-auto my-auto" >
+                                <div class="dropdown d-inline-block">
+                                    <button id="spinner" type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
+                                        <i class="mdi mdi-spin mdi-48px font-size-24 mdi-cog"></i>
+                                    </button>
+                                </div>
+                                {% comment %} <span id="spinner" class="spinner-border justify-content-center" role="status" style="display: none;"></span> {% endcomment %}
+                                <a href="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" >
+                                <div class="card mini-stat bg-secondary w-100  justify-content-center" id="result">
+                                  
+                                    <div class="card-body mini-stat-img">
+                                        {% comment %} <div class="mini-stat-icon">
+                                            <i class="mdi mdi-cube-outline float-end"></i>
+                                        </div> {% endcomment %}
+                                        <div class="text-white text-center py-2">
+                                            <h2 class="text-uppercase mb-3 font-size-24  text-white mb-3">{{panneau.nom}}</h2>
+                                            <h6 class="text-uppercase mb-3 font-size-14  text-white mb-3"> PV Generator <i class="mdi mdi-arrow-right  text-white mx-1"></i>  {{panneau.PV}} </h2>
+                                            {% comment %} <h6 class="text-uppercase mb-3 font-size-10  text-white mb-3"> Recommanded Load <i class="mdi mdi-arrow-right  text-white mx-1"></i> {{panneau.R_load}} </h2> {% endcomment %}
+                                            {% comment %} <a href = "" class="btn btn-md btn-light waves-effect waves-light mt-3">Obtemir Un devis</a> {% endcomment %}
+                                            {% comment %} <span class="badge bg-info"> +11% </span> <span class="ms-2">From previous period</span> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            </div>
+
+                            
+                        
+                        </div>
+                        <!-- end row -->
+
+                        
+                        <!-- end row -->
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                            <div class="offcanvas-header">
+                              <h5 id="offcanvasRightLabel">More Details</h5>
+                              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <h1 class="text-uppercase text-primary mb-3 font-size-14 mb-3"> {{panneau.nom}} </h1>
+                                <div class="feed-item-list">
+                                    {% comment %} <h6 class="text-uppercase mb-3 font-size-14">{{x.appliance.nom}} {% if x.appliance.type == '' %} {% else %} ( {{x.appliance.type}} ) {% endif %} </h6> {% endcomment %}
+                                    <span class="activity-text mb-2"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem distinctio vero quasi assumenda expedita nisi, deleniti cumque molestiae ex eaque! Nesciunt, minus. Sint in laudantium necessitatibus labore quidem, quis doloremque! </span>
+                                </div>
+                                <h1 class="text-uppercase text-primary mb-3 font-size-14 mt-3"> Variations </h1>
+                               {% for x in types %}
+                               <div class="card w-100">
+                                <div class="card-body ">
+                                    <h6 class="text-uppercase mb-3 font-size-14 mb-3"> 
+                                        {{x.type.type}}
+                                    </h6>
+                                    <i class="mdi mdi-arrow-right  mx-1"></i>  {{x.prix}} FCFA
+                                </div>
+                                <a href="{% url "get_coast" x.type.pk %}" class=" mx-3 btn btn-primary btn-sm  justify-content-center waves-effect waves-light">Get</a>
+
+                            </div>
+                                
+                               
+                                {% endfor %}   
+                                </div>
+                        </div>
+
+                        <script>
+                            // Affiche le spinner pendant quelques secondes avant d'afficher le contenu réel
+                            $(document).ready(function() {
+                                // Affiche le spinner
+                                $("#spinner").show();
+                                $("#result").hide();
+                                // Simulation d'une requête asynchrone (remplacez cela par votre logique réelle)
+                                setTimeout(function() {
+                                    // Cache le spinner
+                                    $("#spinner").hide();
+                        
+                                    // Affiche le contenu réel dans la colonne
+                                    $("#result").show();
+                                }, 3000); // Temps d'attente en millisecondes (3 secondes dans cet exemple)
+                            });
+                        </script>
+
+
+
+
+{% endblock content %}
+
+{% block extra_javascript %}
+
+    <!--Morris Chart-->
+    <script src="{% static 'libs/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'libs/raphael/raphael.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_javascript %}
