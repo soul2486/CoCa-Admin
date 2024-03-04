@@ -5,33 +5,37 @@ import json
 from django.shortcuts import render, redirect
 from django.views import View
 from django.core.serializers.json import DjangoJSONEncoder
-from .models import Appareil, Devis, InformationsInternaute, Panneau, Type_Panneau
+
+from coca.utility import C_bat, M_Ec1, N_bat, N_panneau
+from .models import Appareil, Devis, Devis_Appareil, InformationsInternaute
+from django.http import JsonResponse
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 # Create your views here.
-class AppareilEncoder(DjangoJSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Appareil):
-            return {
-                'id': obj.pk,
-                'nom': obj.nom,
-                'type':obj.type,
-                'cote':obj.cote,  # Ajoutez d'autres champs que vous souhaitez sérialiser
-                # ...
-            }
-        return super().default(obj)
 
-def WhatSysteme (total):
-    result = Panneau()
-    systeme = Panneau.objects.all()
-    for p in systeme:
-        if total <= p.cote :
-            return p
+#Function to check if the user with email exist
 
+class checkUserView(View):
+    template  = "coca/email-form.html"
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated: 
+            logout(request)  # Déconnecte l'utilisateur actuel
+        return render(request, 'coca/email-form.html')
 
-
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+        user = authenticate(username=email, password=email)
+        if user is not None and user.is_active:
+            login(request, user)
+            return redirect(reverse('appliances_coca'))
+        return redirect('user_info', email)
 
 
 def FromView(request):
-
+    print(request.user)
     return render(request, 'coca/from.html')
 
 class HomeView(View):
@@ -48,89 +52,96 @@ class AppliancesView(View):
         context = {
             'appliances':appliances
         }
+        print(request.user)
         return render(request, 'coca/appliances_coca.html', context)
 
     def post(self, request, *args, **kwargs):
-        data = []
+        data_appliances = []
         data_qte = []
+        data_power = []
+        data_hours = []
         # nb = request.POST.get('nombre_appareil')
         for champ, valeur in request.POST.items():
             if champ.startswith('appareil-'):
-                data.append(Appareil.objects.get(pk = valeur))
+                data_appliances.append(Appareil.objects.get(pk = valeur))
             if champ.startswith('qte-'):
                 data_qte.append(valeur)
+            if champ.startswith('power-'):
+                data_power.append(valeur)
+            if champ.startswith('hour-'):
+                data_hours.append(valeur)
 
         total = 0
         j = 0
         appliances = []
-        for i in data:
+        # print(data_power)
+
+        for i in data_appliances:
           
-            total = total + (i.cote * Decimal(data_qte[j]))
+            total = total + (Decimal(data_power[j]) * Decimal(data_qte[j]) * Decimal(data_hours[j]))
             tmp = {
                 'appliance':i,
                 'quantity': data_qte[j],
+                'power':data_power[j],
+                'hour':data_hours[j]
             }
-            print("------------")
-            print(data_qte[j])
+            # print("qte -------------")
+            # print(data_qte[j])
+            # print("power -------------")
+            # print(data_power[j])
             appliances.append(tmp)
             j = j + 1
-
-        result = WhatSysteme(total)
-        #internaute
-        internaute_json = request.session.get('internaute')
-        
-        if internaute_json:
-            # Désérialisez l'objet JSON pour récupérer l'objet InformationsInternaute
-            internaute_data = json.loads(internaute_json)
-            internaute = InformationsInternaute.objects.get(id=internaute_data['internaute_id'])
-        devis = Devis.objects.create(internaute_temp = internaute, total = total )
-        devis = json.dumps({'devis_id': devis.id}, cls=DjangoJSONEncoder)
-        appliance = json.dumps({'appliances': appliances}, cls=AppareilEncoder)
-        request.session['current_devis'] = devis
-        request.session['current_apps'] = appliance
-        # print(request.session['current_apps'] )
-        context = {
-            'panneau':result,
-            'types': Type_Panneau.objects.filter(panneau = result),
-            'appliances': appliances,
-        }
-        print("************")
         print(total)
+        internaute = User.objects.get(pk = request.user.id)
+        internaute = internaute.internaute
+        print(f"--------------------{internaute}")
+        total = M_Ec1(total)
+        print(f"--------------------{total}")
 
-        return render(request, 'coca/result_appliance.html', context)
+        # total = Decimal(total)
+        devis = Devis.objects.create(internaute_temp = internaute, energie_T = total )
+
+        for appliance in appliances :
+            appliance_obj = appliance['appliance']
+            qte = appliance['quantity']
+            power = appliance['power']
+            hour = appliance['hour']
+            # energie_T = qte * power * hour
+            devis_appareil = Devis_Appareil.objects.create(
+                appareil = appliance_obj,
+                devis = devis,
+                quantite = qte,
+                numHours = hour,
+                power = power,
+                # energie_T=energie_T
+            )            
+            devis_appareil.save()
+        return redirect('get_coast', devis.pk)
+        return render(request, 'coca/result_appliance.html')
 
 # A partir des factures:
 
-class BillsView(View):
-    def get(self, request, *args, **kwargs):
+# class BillsView(View):
+#     def get(self, request, *args, **kwargs):
 
-        return render(request, "coca/bills_coca.html")
+#         return render(request, "coca/bills_coca.html")
 
-    def post(self, request, *args, **kwargs):
-        data_qte = []
-        total = 0
-        cmpt = 0
-        for champ, valeur in request.POST.items():
-            if champ.startswith('qte-'):
-                data_qte.append(valeur)
-        for i in data_qte:
-            total +=  int(i)
-            cmpt = cmpt + 1
-        moy = total / cmpt
-        print(moy)
+#     def post(self, request, *args, **kwargs):
+#         data_qte = []
+#         total = 0
+#         cmpt = 0
+#         for champ, valeur in request.POST.items():
+#             if champ.startswith('qte-'):
+#                 data_qte.append(valeur)
+#         for i in data_qte:
+#             total +=  int(i)
+#             cmpt = cmpt + 1
+#         moy = total / cmpt
+#         print(moy)
 
-        result = WhatSysteme(moy)
-       
-        context = {
-            'panneau':result,
-            'types': Type_Panneau.objects.filter(panneau = result),
-            # 'appliances': moy,
-        }
-        print("************")
-        print(total)
-
+   
         
-        return render(request, 'coca/result_appliance.html', context)
+#         return render(request, 'coca/result_appliance.html')
 
 def Apropos(request):
 
@@ -142,49 +153,57 @@ def Contact(request):
 
 
 class InfoUserView(View):
+    
     def get(self, request, *args, **kwargs):
+        
         
         return render(request, 'coca/form_user.html')
 
     def post(self, request, *args, **kwargs):
+        email = kwargs['email']
+       
         nom = request.POST.get("nom")
         prenom = request.POST.get("prenom")
         addres = request.POST.get("addres")
-        mail = request.POST.get("email")
+        
         telephone = request.POST.get("telephone")
+        
+        
+        user = User.objects.create_user(username=email, password=email)
         data = {
             'nom': nom,
             'prenom':prenom,
-            'email':mail,
+            'email':email,
             'addres':addres,
             'telephone':telephone,
+            'user':user,
 
         }
-        internaute = InformationsInternaute.objects.create(**data)
-        internaute_json = json.dumps({'internaute_id': internaute.id}, cls=DjangoJSONEncoder)
-        request.session['internaute'] = internaute_json
-        print(internaute)
+        info_user = InformationsInternaute.objects.create(**data)
+        user = authenticate(username=email, password=email)
+        login(request, user)
+        print(request)
+
+        print(user)
+        
         return redirect(reverse('appliances_coca'))
+    
 class GetCoastView(View):
     def get(self, request, pk, *args, **kwargs):
-        devis_json = request.session.get('current_devis')
-        apps_json = request.session.get('current_apps')
-        if apps_json:
-            apps_data = json.loads(apps_json)
+        high_devis = Devis.objects.get(pk = pk)
+        devis = Devis_Appareil.objects.filter(devis = high_devis)
+        c_bat = C_bat(high_devis.energie_T)
+        N_pan = N_panneau(high_devis.energie_T)
+        n_bat = N_bat(c_bat)
 
-        context = {}
-        if devis_json:
-            # Désérialisez l'objet JSON pour récupérer l'objet InformationsInternaute
-            devis_data = json.loads(devis_json)
-            devis = Devis.objects.get(id=devis_data['devis_id'])
-        panneau = WhatSysteme(devis.total)
         context = {
             'devis':devis,
-            'panneau':panneau,
-            'appliances':apps_data,
-            'type': Type_Panneau.objects.filter(type = pk).first,
-            }
-        print()
+            'nb_bat':n_bat,
+            'c_bat':c_bat,
+            'high_devis':high_devis,
+            'n_panneau':N_pan
+        }
+
         return render(request, 'coca/invoice.html', context)
 
     def post(self, request, *args, **kwargs):

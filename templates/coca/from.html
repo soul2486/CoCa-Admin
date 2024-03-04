@@ -32,14 +32,14 @@
                             <div class="col-xl-4 col-sm-6 ">
                                 <a href="{% url "appliances_coca" %}" >
                                 <div class="card mini-stat bg-primary w-75">
-                                  
+                                   
                                     <div class="card-body mini-stat-img">
                                         {% comment %} <div class="mini-stat-icon">
                                             <i class="mdi mdi-cube-outline float-end"></i>
                                         </div> {% endcomment %}
                                         <div class="text-white text-center py-2">
-                                            <h2 class="text-uppercase mb-3 font-size-24  text-white mb-3">From</h2>
-                                            <h6 class="text-uppercase mb-3 font-size-14  text-white mb-3">your electrical appliances</h2>
+                                            <h2 class="text-uppercase mb-3 font-size-24  text-white mb-3">From  </h2>
+                                            <h6 class="text-uppercase mb-3 font-size-14  text-white mb-3">your electrical appliances  {{user.internaute.telephone}}</h2>
                                             {% comment %} <a href = "" class="btn btn-md btn-light waves-effect waves-light mt-3">Obtemir Un devis</a> {% endcomment %}
                                             {% comment %} <span class="badge bg-info"> +11% </span> <span class="ms-2">From previous period</span> {% endcomment %}
                                         </div>

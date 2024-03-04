@@ -33,13 +33,4 @@ class CheckUserTestCase(TestCase):
         else:
             print("*******")
             print("NO")
-
-    # def test_check_user_not_exists(self):
-    #     # Créer une demande fictive avec un email inexistant
-    #     request = self.factory.post('/check_user/', {'email': 'non_existant@example.com'})
-
-    #     # Appeler la vue avec la demande fictive
-    #     response = checkUser(request)
-
-    #     # Vérifier si la réponse contient "no"
-    #     self.assertEqual(response, "no")
+            

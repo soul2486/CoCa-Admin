@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # dashboard
-    path('dashboard',include('dashboard.urls')),
+    path('dashboard/',include('dashboard.urls')),
     
     # components
     path('components/',include('components.urls')),

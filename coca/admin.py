@@ -1,7 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 
-from coca.models import Appareil, Panneau, Type_Panneau, TypePanneau
+from coca.models import Appareil, Devis, InformationsInternaute
 
 # Register your models here.
 # Appareil模型的管理器
@@ -10,21 +10,14 @@ class AppareilAdmin(admin.ModelAdmin):
     list_display = ["nom", "type", "cote"]
     search_fields = ["nom"]
     list_filter =[]
-@admin.register(Panneau)
-class PanneauAdmin(admin.ModelAdmin):
-    list_display = ["nom", "PV", "cote"]
+
+@admin.register(InformationsInternaute)
+class InternauteAdmin(admin.ModelAdmin):
+    list_display = ["nom", "email"]
     search_fields = ["nom"]
     list_filter =[]
-
-@admin.register(TypePanneau)
-class TypePanneauAdmin(admin.ModelAdmin):
-    list_display = ["type",]
-    search_fields = [""]
+@admin.register(Devis)
+class DevisAdmin(admin.ModelAdmin):
+    list_display = ["internaute_temp", "energie_T", 'date']
+    search_fields = ["internaute_temp"]
     list_filter =[]
-
-@admin.register(Type_Panneau)
-class Type_PanneauAdmin(admin.ModelAdmin):
-    list_display = ["panneau", "type", "prix"]
-    search_fields = [""]
-    list_filter =[]
-

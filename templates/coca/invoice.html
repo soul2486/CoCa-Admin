@@ -28,10 +28,10 @@
                                     <div class="col-6">
                                         <address>
                                                 <strong>Billed To:</strong><br>
-                                                {{devis.internaute_temp.nom}}  {{devis.internaute_temp.prenom}}<br>
-                                                {{devis.internaute_temp.email}}<br>
-                                                {{devis.internaute_temp.addres}}<br>
-                                                {{devis.internaute_temp.telephone}}
+                                                {{user.internaute.nom}}  {{user.internaute.prenom}}<br>
+                                                {{user.internaute.email}}<br>
+                                                {{user.internaute.addres}}<br>
+                                                {{user.internaute.telephone}}
                                             </address>
                                     </div>
                                     <div class="col-6 text-end">
@@ -55,7 +55,7 @@
                                     <div class="col-6 mt-4 text-end">
                                         <address>
                                                 <strong>Order Date:</strong><br>
-                                                {{devis.date}}<br><br>
+                                                {{high_devis.date}}<br><br>
                                             </address>
                                     </div>
                                 </div>
@@ -74,20 +74,22 @@
                                                 <thead>
                                                     <tr>
                                                         <td><strong>Item</strong></td>
-                                                        <td class="text-center"><strong>Price</strong></td>
+                                                        <td class="text-center"><strong>Power</strong></td>
                                                         <td class="text-center"><strong>Quantity</strong>
                                                         </td>
+                                                        <td class="text-center"><strong>heure/Jour</strong></td>
                                                         <td class="text-end"><strong>Totals</strong></td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <!-- foreach ($order->lineItems as $line) or some such thing here -->
-                                                    {% for x in appliances.appliances %}
+                                                    {% for x in devis %}
                                                     <tr>
-                                                        <td> {{x.appliance.nom}}({{x.appliance.type}}) </td>
-                                                        <td class="text-center cote" id="{{x.appliance.id}}">{{x.appliance.cote}}</td>
-                                                        <td class="text-center qty" id="q-{{x.appliance.id}}">{{x.quantity}}</td>
-                                                        <td class="text-end total" id="t-{{x.appliance.id}}"></td>
+                                                        <td> {{x.appareil.nom}}({{x.appareil.type}}) </td>
+                                                        <td class="text-center cote" id="{{x.appliance.id}}">{{x.power}}</td>
+                                                        <td class="text-center qty" id="q-{{x.appliance.id}}">{{x.quantite}}</td>
+                                                        <td class="text-center qty" id="q-{{x.appliance.id}}">{{x.numHours}}</td>
+                                                        <td class="text-end total" id="t-{{x.appliance.id}}">{{x.energie_T}} (Wh/j)</td>
                                                     </tr>
                                                     {% endfor %}
                                                      {% comment %}<tr>
@@ -105,34 +107,51 @@
                                                     <tr>
                                                         <td class="thick-line"></td>
                                                         <td class="thick-line text-center">
-                                                            <strong>Subtotal</strong>
+                                                            <strong>Total Energy(+20%) </strong>
                                                         </td>
                                                         <td class="thick-line"></td>
                                                         
-                                                        <td class="thick-line text-end">{{devis.total}}</td>
+                                                        <td class="thick-line text-end"> <strong> {{high_devis.energie_T}} (Wh/j) </strong> </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="no-line"></td>
                                                         <td class="no-line text-center">
-                                                            <strong>Option</strong>
+                                                            <strong>Battery Capacity</strong>
                                                         </td>
-                                                        <td class="no-line text-center">
-                                                            <strong>{{panneau.nom}}</strong>
-                                                        </td>
-                                                        
-                                                        <td class="no-line text-end"> {{panneau.PV}} Wp (PV) </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="no-line"></td>
-                                                        <td class="no-line text-center">
-                                                            <strong>Battery</strong>
-                                                        </td>
-                                                        
-                                                        <td class="no-line text-center">
-                                                            <strong>{{type.type.type}}</strong>
-                                                        </td>
+        
                                                         
                                                         <td class="no-line text-end">  </td>
+                                                        <td class="no-line text-end">
+                                                            <strong>{{c_bat}} (AH)</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line text-center">
+                                                            <strong>Battery Number</strong>
+                                                        </td>
+                                                        
+                                                        
+                                                        
+                                                        <td class="no-line text-end">  </td>
+                                                        {% comment %} <td class="no-line text-end">  </td> {% endcomment %}
+                                                        <td class="no-line text-center">
+                                                            <strong>{{nb_bat}}</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line text-center">
+                                                            <strong>Panneau Number</strong>
+                                                        </td>
+                                                        
+                                                        
+                                                        
+                                                        <td class="no-line text-end">  </td>
+                                                        {% comment %} <td class="no-line text-end">  </td> {% endcomment %}
+                                                        <td class="no-line text-center">
+                                                            <strong>{{n_panneau}}</strong>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="no-line"></td>
@@ -226,7 +245,7 @@ let itemAdd = `
 
 })  ; 
 
-$(document).ready(function () {
+{% comment %} $(document).ready(function () {
         // Itérer sur chaque ligne du tableau spécifique
         setTimeout(function () {
         $('tr').each(function () {
@@ -240,7 +259,7 @@ $(document).ready(function () {
             // Mettre à jour la quatrième colonne avec le résultat
             $(this).find('.total').text(parseFloat(total));
         });},1000);
-    });</script>
+    });</script> {% endcomment %}
 
 
 

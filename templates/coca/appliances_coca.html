@@ -16,8 +16,12 @@
                 <div class="col-lg-6 ">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title text-black">Select your appliances   </h4>
-                            <div class="row">
+                           
+                            {% if user.is_authenticated %}
+                                <h4 class="card-title text-black">Select your appliances  {{ user.internaute.nom }} </h4>
+                            
+                            {% endif %}
+                                <div class="row">
                                 <div class="col-lg-12 justify-content-center">
                                    
                                         <input type="hidden" id="nombre_appareil" name="nombre_appareil" class="form-control"  placeholder="Enter a quantity">
@@ -53,6 +57,18 @@
                                                     <div class="mb-3">
                                                         <label class="form-label" for="formrow-password-input">Quantity</label>
                                                         <input type="number" name="qte-1" id="qte-1" required class="form-control"  placeholder="Enter a quantity">
+                                                    </div>
+                                                </div> <!-- end col -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="formrow-password-input">Power</label>
+                                                        <input type="decimal" name="power-1" id="power-1" required class="form-control"  placeholder="Power">
+                                                    </div>
+                                                </div> <!-- end col -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="formrow-password-input">Hours/Day</label>
+                                                        <input type="decimal" name="hour-1" id="hour-1" required class="form-control"  placeholder="Hour">
                                                     </div>
                                                 </div> <!-- end col -->
                                             </div> <!-- end row -->
@@ -201,6 +217,20 @@ let itemAdd = `
                     <input type="number" name="qte-${number}" class="form-control" id="qte-${number}" placeholder="Enter a quantity">
                 </div>
             </div> <!-- end col -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label" for="formrow-password-input">Power</label>
+                    <input type="decimal" name="power-${number}" id="power-${number}" required class="form-control"  placeholder="Power">
+                </div>
+            </div> <!-- end col -->
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label" for="formrow-password-input">Hours/Day</label>
+                    <input type="decimal" name="hour-${number}" id="hour-${number}" required class="form-control"  placeholder="Hour">
+                </div>
+            </div> <!-- end col -->
+
         </div> <!-- end row -->
 
 `
